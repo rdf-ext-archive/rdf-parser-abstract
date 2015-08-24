@@ -17,7 +17,7 @@ var AbstractParser = function () {
       self.process(data, pushTriple, base, filter, function (error) {
         // callback API
         if (callback) {
-          callback(null, graph);
+          callback(error, graph);
         }
 
         // Promise API
