@@ -3,11 +3,13 @@ var
   Readable = require('stream').Readable;
 
 
-var AbstractParser = function () {
+var AbstractParser = function (rdf) {
   var self = this;
 
+  this.rdf = rdf
+
   this.parse = function (data, callback, base, filter, graph) {
-    graph = graph || rdf.createGraph();
+    graph = graph || self.rdf.createGraph();
 
     var pushTriple = function (triple) {
       graph.add(triple);
