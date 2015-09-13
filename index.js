@@ -3,53 +3,55 @@ var util = require('util')
 var Readable = require('stream').Readable
 
 function AbstractParser (rdf) {
+  this.rdf = rdf
+}
+
+AbstractParser.prototype.parse = function (data, callback, base, filter, graph) {
   var self = this
 
-  this.rdf = rdf
+  graph = graph || self.rdf.createGraph()
 
-  this.parse = function (data, callback, base, filter, graph) {
-    graph = graph || self.rdf.createGraph()
-
-    var pushTriple = function (triple) {
-      graph.add(triple)
-    }
-
-    return new Promise(function (resolve, reject) {
-      self.process(data, pushTriple, base, filter, function (error) {
-        // callback API
-        if (callback) {
-          callback(error, graph)
-        }
-
-        // Promise API
-        if (error) {
-          reject(error)
-        } else {
-          resolve(graph)
-        }
-      })
-    })
+  var pushTriple = function (triple) {
+    graph.add(triple)
   }
 
-  this.stream = function (inputStream, base, filter) {
-    var outputStream = new AbstractParser.TripleReadStream()
+  return new Promise(function (resolve, reject) {
+    self.process(data, pushTriple, base, filter, function (error) {
+      // callback API
+      if (callback) {
+        callback(error, graph)
+      }
 
-    AbstractParser.streamToData(inputStream).then(function (data) {
-      self.process(data, function (triple) {
-        outputStream.push(triple)
-      }, base, filter, function (error) {
-        if (error) {
-          outputStream.emit('error', error)
-        } else {
-          outputStream.emit('end')
-        }
-      })
-    }).catch(function (error) {
-      outputStream.emit('error', error)
+      // Promise API
+      if (error) {
+        reject(error)
+      } else {
+        resolve(graph)
+      }
     })
+  })
+}
 
-    return outputStream
-  }
+AbstractParser.prototype.stream = function (inputStream, base, filter) {
+  var self = this
+
+  var outputStream = new AbstractParser.TripleReadStream()
+
+  AbstractParser.streamToData(inputStream).then(function (data) {
+    self.process(data, function (triple) {
+      outputStream.push(triple)
+    }, base, filter, function (error) {
+      if (error) {
+        outputStream.emit('error', error)
+      } else {
+        outputStream.emit('end')
+      }
+    })
+  }).catch(function (error) {
+    outputStream.emit('error', error)
+  })
+
+  return outputStream
 }
 
 AbstractParser.streamToData = function (stream) {
