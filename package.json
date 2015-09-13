@@ -21,5 +21,8 @@
   "bugs": {
     "url": "https://github.com/rdf-ext/rdf-parser-abstract/issues"
   },
-  "homepage": "https://github.com/rdf-ext/rdf-parser-abstract"
+  "homepage": "https://github.com/rdf-ext/rdf-parser-abstract",
+  "dependencies": {
+    "concat-stream": "^1.5.0"
+  }
 }

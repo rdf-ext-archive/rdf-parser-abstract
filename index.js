@@ -1,3 +1,4 @@
+var concatStream = require('concat-stream')
 var util = require('util')
 var Readable = require('stream').Readable
 
@@ -57,27 +58,13 @@ AbstractParser.streamToData = function (stream) {
       return resolve(stream)
     }
 
-    var data
-
-    stream.on('data', function (chunk) {
-      if (!data) {
-        data = chunk
-      } else {
-        if (Buffer.isBuffer(data)) {
-          data = Buffer.concat(data, chunk)
-        } else {
-          data += data.toString()
-        }
-      }
-    })
-
-    stream.on('end', function () {
-      resolve(data)
-    })
-
     stream.on('error', function (error) {
       reject(error)
     })
+
+    stream.pipe(concatStream(function (data) {
+      resolve(data)
+    }))
   })
 }
 
