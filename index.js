@@ -19,7 +19,11 @@ AbstractParser.prototype.parse = function (data, callback, base, filter, graph) 
     self.process(data, pushTriple, base, filter, function (error) {
       // callback API
       if (callback) {
-        callback(error, graph)
+        if (error) {
+          callback(error)
+        } else {
+          callback(null, graph)
+        }
       }
 
       // Promise API
