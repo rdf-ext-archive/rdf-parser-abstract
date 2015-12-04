@@ -19,7 +19,7 @@ AbstractParser.prototype.parse = function (data, callback, base, filter, graph) 
     self.process(data, pushTriple, base, filter, function (error) {
       // callback API
       if (callback) {
-        process.nextTick(function() {
+        process.nextTick(function () {
           if (error) {
             callback(error)
           } else {
