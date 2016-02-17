@@ -1,5 +1,5 @@
 var concatStream = require('concat-stream')
-var util = require('util')
+var inherits = require('inherits')
 var Readable = require('stream').Readable
 
 function AbstractParser (rdf) {
@@ -84,6 +84,6 @@ AbstractParser.TripleReadStream = function () {
   }
 }
 
-util.inherits(AbstractParser.TripleReadStream, Readable)
+inherits(AbstractParser.TripleReadStream, Readable)
 
 module.exports = AbstractParser
