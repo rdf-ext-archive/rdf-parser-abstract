@@ -17,9 +17,9 @@ Start a terminal and run:
 	npm install rdf-abstract-parser --save
 
 Now let's start coding.
-To inherit from the abstract parser, we have to load the util and the `AbstractParser` itself first:
+To inherit from the abstract parser, we have to load the inherits and the `AbstractParser` itself first:
 
-	var util = require('util')
+	var inherits = require('inherits')
 	var AbstractParser = require('rdf-abstract-parser')
 
 Your parser must accept the optional parameter `rdf` to use the given RDF environment.
@@ -33,9 +33,9 @@ To initialize the `AbstractParser`, you have to call the `AbstractParser` constr
 	  AbstractParser.call(this, rdf)
 	}
 
-After the constructor code you have to inherit with the `util.inherits` function.
+After the constructor code you have to inherit with the `inherits` function.
 
-	util.inherits(YourParser, AbstractParser)
+	inherits(YourParser, AbstractParser)
 
 Only the `.process` method is required to be implemented.
 The `base` parameter is optional, let's check if it is given and createt a `NamedNode` from the string, so we can use it for the `graph` property for the quads.
