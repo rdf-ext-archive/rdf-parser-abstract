@@ -1,6 +1,6 @@
 {
   "name": "rdf-parser-abstract",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Abstract base class for RDF Interface parser implementations",
   "main": "index.js",
   "scripts": {
