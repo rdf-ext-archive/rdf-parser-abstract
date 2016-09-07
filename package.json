@@ -24,7 +24,9 @@
   "homepage": "https://github.com/rdf-ext/rdf-parser-abstract",
   "dependencies": {
     "concat-stream": "^1.5.0",
-    "inherits": "^2.0.1",
+    "inherits": "^2.0.1"
+  },
+  "devDependencies": {
     "mocha": "^2.3.3"
   }
 }
