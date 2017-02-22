@@ -1,6 +1,6 @@
 var concatStream = require('concat-stream')
 var inherits = require('inherits')
-var Readable = require('stream').Readable
+var Readable = require('readable-stream').Readable
 
 function AbstractParser (rdf) {
   this.rdf = rdf
