@@ -16,24 +16,24 @@ AbstractParser.prototype.parse = function (data, callback, base, filter, graph) 
   }
 
   return new Promise(function (resolve, reject) {
-    self.process(data, pushTriple, base, filter, function (error) {
+    self.process(data, pushTriple, base, filter).then(function() {
       // callback API
       if (callback) {
         process.nextTick(function () {
-          if (error) {
-            callback(error)
-          } else {
             callback(null, graph)
-          }
         })
       }
 
       // Promise API
-      if (error) {
-        reject(error)
-      } else {
-        resolve(graph)
+      resolve(graph)
+    }).catch(function(error) {
+      if (callback) {
+        process.nextTick(function () {
+            callback(error)
+        })
       }
+    
+      reject(error)
     })
   })
 }
